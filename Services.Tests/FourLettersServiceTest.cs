@@ -9,19 +9,27 @@ namespace Services.Tests
     [TestFixture]
     public class FourLettersServiceTest
     {
-
         private FourLettersService _sut;
+
+        public FourLettersServiceTest()
+        {
+            _sut = new FourLettersService();
+        }
+        
 
         [TestCase]
         public void GetShortestList_HappyPath()
         {
-            _sut = new FourLettersService();
+            // Arrange
             List<string> inputWordsRaw = new List<string> { "Spin", "Spit", "Spat", "Spot", "Span" };
             var inputWords = inputWordsRaw.Select(x => FourLettersWord.Create(x)).ToList();
             var startWord = FourLettersWord.Create("Spin");
             var endWord = FourLettersWord.Create("Spot");
+
+            // Act
             var result = _sut.GetShortesListOfFourLetters(inputWords, startWord, endWord);
 
+            //Assert
             Assert.AreEqual(3, result.Count);
             Assert.AreEqual(1, result.Count(x => x.Word == startWord.Word));
             Assert.AreEqual(1, result.Count(x => x.Word == endWord.Word));
@@ -32,13 +40,16 @@ namespace Services.Tests
         [TestCase]
         public void GetShortestList_WordsWithRepeatedLetters()
         {
-            _sut = new FourLettersService();
+            // Arrange
             List<string> inputWordsRaw = new List<string> { "Siin", "XpiP", "Tiin", "Oiin","Abcd","Oiii" };
             var inputWords = inputWordsRaw.Select(x => FourLettersWord.Create(x)).ToList();
             var startWord = FourLettersWord.Create("Siin");
             var endWord = FourLettersWord.Create("Oiii");
+
+            // Act
             var result = _sut.GetShortesListOfFourLetters(inputWords, startWord, endWord);
 
+            // Assert
             Assert.AreEqual(4, result.Count);
             Assert.AreEqual(1, result.Count(x => x.Word == startWord.Word));
             Assert.AreEqual(1, result.Count(x => x.Word == endWord.Word));
@@ -51,13 +62,16 @@ namespace Services.Tests
         [TestCase]
         public void GetShortestList_FinalWordIsFoundEarly()
         {
-            _sut = new FourLettersService();
+            // Arrange
             List<string> inputWordsRaw = new List<string> { "Siin", "Oiin", "Oiil", "Oixl",  "Oixi", "Oiii" };
             var inputWords = inputWordsRaw.Select(x => FourLettersWord.Create(x)).ToList();
             var startWord = FourLettersWord.Create("Siin");
             var endWord = FourLettersWord.Create("Oiii");
+
+            // Act
             var result = _sut.GetShortesListOfFourLetters(inputWords, startWord, endWord);
 
+            // Assert
             Assert.AreEqual(3, result.Count);
             Assert.AreEqual(1, result.Count(x => x.Word == startWord.Word));
             Assert.AreEqual(1, result.Count(x => x.Word == endWord.Word));
@@ -68,15 +82,34 @@ namespace Services.Tests
         }
 
         [TestCase]
-        public void GetShortestList_NoWordsFound()
+        public void GetShortestList_StartWordNotFound()
         {
-            _sut = new FourLettersService();
+            // Arrange
             List<string> inputWordsRaw = new List<string> { "abcd", "wxyz", "defg" };
             var inputWords = inputWordsRaw.Select(x => FourLettersWord.Create(x)).ToList();
             var startWord = FourLettersWord.Create("Siin");
-            var endWord = FourLettersWord.Create("Oiii");
+            var endWord = FourLettersWord.Create("defg");
+
+            // Act
             var result = _sut.GetShortesListOfFourLetters(inputWords, startWord, endWord);
 
+            // Assert
+            Assert.AreEqual(0, result.Count);
+        }
+
+        [TestCase]
+        public void GetShortestList_EndWordNotFound()
+        {
+            // Arrange
+            List<string> inputWordsRaw = new List<string> { "abcd", "wxyz", "defg" };
+            var inputWords = inputWordsRaw.Select(x => FourLettersWord.Create(x)).ToList();
+            var startWord = FourLettersWord.Create("abcd");
+            var endWord = FourLettersWord.Create("qwer");
+
+            // Act
+            var result = _sut.GetShortesListOfFourLetters(inputWords, startWord, endWord);
+
+            // Assert
             Assert.AreEqual(0, result.Count);
         }
     }

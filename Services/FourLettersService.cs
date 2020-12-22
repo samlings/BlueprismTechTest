@@ -1,5 +1,4 @@
 ﻿using Services.Entities;
-using Services.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +9,14 @@ namespace Services
     {
         private const int _wordLengthWithEqualLetters = 3;
 
-        public FourLettersService()
-        {
-
-        }
-
         public List<FourLettersWord> GetShortesListOfFourLetters(List<FourLettersWord> inputFourLettersWords, FourLettersWord startWord, FourLettersWord endWord)
         {
             List<FourLettersWord> outputWords = new List<FourLettersWord>();
+            if (!AreStartAndEndWordPresent(inputFourLettersWords, startWord, endWord))
+            {
+                return outputWords;
+            }
+
             if (inputFourLettersWords.Any(x => x.Word == startWord.Word))
             {
                 outputWords.Add(startWord);
@@ -61,6 +60,11 @@ namespace Services
             }
             
             return sumMatches == _wordLengthWithEqualLetters;
+        }
+
+        private bool AreStartAndEndWordPresent(List<FourLettersWord> inputFourLettersWords, FourLettersWord startWord, FourLettersWord endWord)
+        {
+            return inputFourLettersWords.Any(x => x.Word == startWord.Word) && inputFourLettersWords.Any(x => x.Word == endWord.Word);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Insfrastructure
         }
         public void WriteWordsToFile(string filePath, List<string> words)
         {
-            //throw new NotImplementedException();
+            File.WriteAllLines(filePath, words);
         }
     }
 }

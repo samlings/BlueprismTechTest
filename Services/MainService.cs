@@ -20,10 +20,9 @@ namespace Services
 
         public void Process(string inputFileName, FourLettersWord startWord, FourLettersWord endWord, string outputFileName)
         {
-
             var words = fileReader.GetWordsFromFile(inputFileName);
 
-            var wordsFiltered = WordFiltering.GetFourLettersWordsFromStartToEnd(words, startWord, endWord);
+            var wordsFiltered = WordCollectionFilter.GetFourLettersWordsFromStartToEnd(words, startWord, endWord);
             
             var resultWords = fourLettersService.GetShortesListOfFourLetters(wordsFiltered, startWord, endWord);
 
