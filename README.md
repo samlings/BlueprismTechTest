@@ -18,5 +18,7 @@ I used Dependency Injection, which makes code loosely coupled and testable.
 I also created a filter logic, in order to reduce the amount of words to the minimum when calling the FourLetterService.
 
 
+## Tools
+The application was developed with Visual Studio 2019, using .NET Core 3.1 and C#. For unit tests I used NUnit.
 
 
